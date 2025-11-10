@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "fastapi-jinja-app"
+version = "0.1.0"
+description = "A FastAPI application using Jinja2 for templating."
+authors = ["Your Name <youremail@example.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.75.0"
+uvicorn = "^0.17.0"
+jinja2 = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

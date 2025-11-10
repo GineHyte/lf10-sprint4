@@ -1,0 +1,42 @@
+{%- macro status_bar_box(status_obj) -%}
+  <div class="w-8 h-2 bg-{{ statusToClass(status_obj.status) }}"></div>
+{%- endmacro -%}
+
+{%- macro empty_status_bar_box() -%}
+  <div class="w-8 h-2 bg-{{ statusToClass("none") }}"></div>
+{%- endmacro -%}
+
+{%- macro status_bar_text(status_obj) -%}
+  <div class="text-{{ statusToClass(status_obj.status) }}">
+    <p>{{ status_obj.text }}</p>
+  </div>
+{%- endmacro -%}
+
+{%- macro status_bar(stages = {}, with_text=false) -%}
+  <div class="flex gap-1 font-[IBMPlexSans]" role="region">
+    {{ status_bar_box(stages.online_form) }}
+    {{ status_bar_box(stages.documents) }}
+    {{ status_bar_box(stages.tests) }}
+    {{ status_bar_box(stages.security) }}
+    {{ status_bar_box(stages.final_decision) }}
+  </div>
+  {% if with_text is true %}
+    <div class="flex flex-col font-[IBMPlexSans] text-sm/4 mt-1">
+      {{ status_bar_text(stages.online_form) }}
+      {{ status_bar_text(stages.documents) }}
+      {{ status_bar_text(stages.tests) }}
+      {{ status_bar_text(stages.security) }}
+      {{ status_bar_text(stages.final_decision) }}
+    </div>
+  {% endif %}
+{%- endmacro -%}
+
+{%- macro empty_status_bar() -%}
+  <div class="flex gap-1 font-[IBMPlexSans]" role="region">
+    {{ empty_status_bar_box() }}
+    {{ empty_status_bar_box() }}
+    {{ empty_status_bar_box() }}
+    {{ empty_status_bar_box() }}
+    {{ empty_status_bar_box() }}
+  </div>
+{%- endmacro -%}

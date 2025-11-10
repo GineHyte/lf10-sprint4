@@ -1,0 +1,10 @@
+{% extends "base.j2" %}
+{# Import the macro directly and call it with a `credit` object provided by the route #}
+{% from 'components/cards.j2' import credit_request_card, credit_new_request_card with context %}
+
+{% block content %}
+  <div class="grid grid-cols-4 gap-2 p-6">
+    {{ credit_new_request_card() }}
+    {% for credit in credits %}{{ credit_request_card(credit) }}{% endfor %}
+  </div>
+{% endblock content %}

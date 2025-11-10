@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %}Kreditantrag{% endblock %}
+    </title>
+    <!-- Tailwind (CDN) - suitable for demo/development. For production use the Tailwind build process. -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/global.css') }}" />
+    <script type="module">
+      import EventController from "{{ url_for('static', path='js/eventController.js') }}"
+      const eventController = EventController.getInstance() 
+    </script>
+  </head>
+  <body>
+    <!-- Carbon UI Shell Header -->
+    <header class="top-0 h-12 border-b-1 w-full" role="banner">
+      <div class="flex">
+        <div class="p-2 border-r-1 size-12 flex items-center justify-center">
+          <button>
+            <img class="size-5" src="{{ url_for('static', path='images/menu_3liner.svg') }}" />
+          </button>
+        </div>
+        <a href="/" class="font-[IBMPlexSans] mt-1 ml-5">
+          <span class="font-light text-3xl">{{ session.frontendVariables.title }}</span>
+        </a>
+        <div class="ml-5 border-l-1 my-auto h-6"></div>
+
+        <div class="flex justify-end w-full pe-2">
+          <div class="flex justify-between w-20 gap-3">
+            <img class="size-8 w-10 my-auto" src="{{ url_for('static', path='images/support.svg') }}" />
+            <img class="size-8 w-10 my-auto" src="{{ url_for('static', path='images/profile.svg') }}" />
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+
+</html>
