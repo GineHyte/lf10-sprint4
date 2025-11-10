@@ -10,10 +10,6 @@
     <!-- Tailwind (CDN) - suitable for demo/development. For production use the Tailwind build process. -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="{{ url_for('static', path='css/global.css') }}" />
-    <script type="module">
-      import EventController from "{{ url_for('static', path='js/eventController.js') }}"
-      const eventController = EventController.getInstance() 
-    </script>
   </head>
   <body>
     <!-- Carbon UI Shell Header -->

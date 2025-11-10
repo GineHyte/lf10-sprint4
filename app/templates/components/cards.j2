@@ -15,7 +15,7 @@
       async function redirectToCreditRequestPage() {
           const eventController = EventController.getInstance() 
           await eventController.setCreditSessionFrontendVariable("title", "test123")
-          window.location = "/credit_request/{{ credit.number }}";
+          //window.location = "/credit_request/{{ credit.number }}";
       }
 
       if ("{{ getCursorTwClassFromOnlineFormStatus(credit.stages.online_form.status) }}" === "pointer") {
