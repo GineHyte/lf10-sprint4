@@ -1,12 +1,14 @@
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
 
+from app.core.logger import logger
 from app.core.templates import render_template
 from app.schemas.session import CreditSession
 from app.scripts.session_controller import (
     attach_session_to_response,
     get_session,
     save_session,
+    session_cookie,
 )
 from app.test_data import credits
 
@@ -14,7 +16,12 @@ router = APIRouter()
 
 
 @router.get("/", response_class=HTMLResponse)
-async def read_index(request: Request, session: CreditSession = Depends(get_session)):
+async def read_index(
+    request: Request,
+    session: CreditSession = Depends(get_session),
+    session_reference=Depends(session_cookie),
+):
+    logger.info(f"rest session: {session_reference}")
     response = render_template(
         request,
         "index.j2",

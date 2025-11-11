@@ -11,17 +11,19 @@
     {{ status_bar(credit.stages, true) }}
   </div>
   <script type="module">
-      import EventController from "{{ url_for('static', path='js/eventController.js') }}"
+    import EventController from "{{ url_for('static', path='js/eventController.js') }}"
+    {
       async function redirectToCreditRequestPage() {
-          const eventController = EventController.getInstance() 
-          await eventController.setCreditSessionFrontendVariable("title", "test123")
-          window.location = "/credit_request/{{ credit.number }}";
+        const eventController = EventController.getInstance() 
+        await eventController.setCreditSessionFrontendVariable("title", "test123")
+        window.location = "/credit_request/{{ credit.number }}";
       }
 
       if ("{{ getCursorTwClassFromOnlineFormStatus(credit.stages.online_form.status) }}" === "pointer") {
-          document.getElementById(`credit-request-card-{{ credit.number }}`)
-              .addEventListener("click", redirectToCreditRequestPage);
+        let creditRequestCardElement = document.getElementById(`credit-request-card-{{ credit.number }}`)
+        creditRequestCardElement.addEventListener("click", redirectToCreditRequestPage);
       }
+    }
   </script>
 {%- endmacro -%}
 
@@ -36,12 +38,12 @@
     {{ empty_status_bar() }}
   </div>
   <script>
-      function redirectToNewCreditRequestPage() {
-          window.location = "/new_credit_request";
-      }
+    function redirectToNewCreditRequestPage() {
+      window.location = "/new_credit_request";
+    }
 
-      const newCreditRequestCardElement = document.getElementById("new-credit-request-card");
+    const newCreditRequestCardElement = document.getElementById("new-credit-request-card");
 
-      newCreditRequestCardElement.addEventListener("click", redirectToNewCreditRequestPage)
+    newCreditRequestCardElement.addEventListener("click", redirectToNewCreditRequestPage)
   </script>
 {%- endmacro -%}

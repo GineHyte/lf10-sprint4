@@ -17,6 +17,8 @@ def process_json_event(prop_event: Event, prop_session: CreditSession) -> bool:
             set_credit_session_variable(event.payload)
         case EventType.SET_CREDIT_SESSION_FRONTEND_VARIABLE:
             set_credit_session_frontend_variable(event.payload)
+        case EventType.CLOSE_CONNECTION:
+            return False
 
     return True
 
@@ -24,12 +26,12 @@ def process_json_event(prop_event: Event, prop_session: CreditSession) -> bool:
 def set_credit_session_variable(payload: SetCreditSessionVariablePayload):
     global session
 
-    payload = SetCreditSessionVariablePayload(**payload)
+    payload = SetCreditSessionVariablePayload.model_validate(payload)
     setattr(session, payload.key, payload.value)
 
 
 def set_credit_session_frontend_variable(payload: SetCreditSessionVariablePayload):
     global session
 
-    payload = SetCreditSessionVariablePayload(**payload)
+    payload = SetCreditSessionVariablePayload.model_validate(payload)
     setattr(session.frontendVariables, payload.key, payload.value)
