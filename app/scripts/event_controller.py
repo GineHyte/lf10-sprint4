@@ -34,4 +34,4 @@ def set_credit_session_frontend_variable(payload: SetCreditSessionVariablePayloa
     global session
 
     payload = SetCreditSessionVariablePayload.model_validate(payload)
-    setattr(session.frontendVariables, payload.key, payload.value)
+    setattr(session.frontend_variables, payload.key, payload.value)

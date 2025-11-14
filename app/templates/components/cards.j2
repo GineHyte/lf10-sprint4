@@ -1,4 +1,4 @@
-{% from 'components/status.j2' import status_bar, empty_status_bar with context %}
+{% from 'components/status.j2' import status_bar, empty_status_bar, status_bar_with_text with context %}
 
 {%- macro credit_request_card(credit) -%}
   <div class="relative bg-gray-100 w-114 h-44 font-[IBMPlexSans] p-4 hover:bg-gray-200 cursor-{{ getCursorTwClassFromOnlineFormStatus(credit.stages.online_form.status) }}"
@@ -8,14 +8,12 @@
     <div class="absolute right-4 top-6">
       <img height="100%" width="100%" alt="menu" src="{{ url_for('static', path='images/arrow_right.svg') }}" />
     </div>
-    {{ status_bar(credit.stages, true) }}
+    {{ status_bar_with_text(credit) }}
   </div>
   <script type="module">
     import EventController from "{{ url_for('static', path='js/eventController.js') }}"
     {
       async function redirectToCreditRequestPage() {
-        const eventController = EventController.getInstance() 
-        await eventController.setCreditSessionFrontendVariable("title", "test123")
         window.location = "/credit_request/{{ credit.number }}";
       }
 

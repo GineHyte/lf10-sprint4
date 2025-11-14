@@ -1,5 +1,18 @@
 {% extends "base.j2" %}
 
-{% block content %}
+{% from 'components/status.j2' import status_bar, empty_status_bar with context %}
 
+{% block content %}
+  <div class="flex w-full h-[90vh] justify-center font-[IBMPlexSans]">
+    <div class="flex w-4/5 bg-gray-100 h-[95%] mt-5 flex-col">
+      <div class="py-4 border-b-1 p-3 h-19 w-full flex flex-col gap-2">
+        <span class="text-2xl font-light">Schritt {{session.current_step}}: <span class="font-medium">Kreditanfrage</span></span>
+        {{ status_bar(credit) }}
+      </div>
+      <div class="p-4">
+        {% block form %}
+        {% endblock form %}
+      </div>
+    </div>
+  </div>
 {% endblock content %}

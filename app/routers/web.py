@@ -21,7 +21,11 @@ async def read_index(
     session: CreditSession = Depends(get_session),
     session_reference=Depends(session_cookie),
 ):
+    session.frontend_variables.title = "Kreditanträge"
+    await save_session(request, session)
+
     logger.info(f"rest session: {session_reference}")
+
     response = render_template(
         request,
         "index.j2",
@@ -42,6 +46,7 @@ async def read_credit_request_detail(
     session: CreditSession = Depends(get_session),
 ):
     session.credit_number = str(credit_number)
+    session.frontend_variables.title = "Kreditantrag №" + str(credit_number)
     await save_session(request, session)
 
     response = render_template(
@@ -59,6 +64,8 @@ async def read_credit_request_new(
 ):
     session.credit_number = None
     session.current_step = 1
+    session.frontend_variables.title = "Neuen Kreditantrag erfassen"
+    await save_session(request, session)
     await save_session(request, session)
 
     response = render_template(

@@ -1,5 +1,21 @@
-{%- macro status_bar_box(status_obj) -%}
-  <div class="w-8 h-2 bg-{{ statusToClass(status_obj.status) }}"></div>
+{%- macro status_bar_box(credit, stage_name) -%}
+  <div id="credit-{{credit.number}}-status-box-{{stage_name}}" class="w-8 h-2 bg-{{ statusToClass(credit.stages[stage_name].status) }} relative">
+    <div id="credit-{{credit.number}}-status-box-{{stage_name}}-info" class="hidden absolute h-auto w-50 left-[-6rem] top-[1rem] bg-gray-900 rounded-xl p-2 text-center">
+      <span class="font-[IBMPlexSans] text-white text-sm">{{ credit.stages[stage_name].text }}</span>
+    </div>
+  </div>
+  <script>
+  if ("{{statusToClass(credit.stages[stage_name].status)}}" !== ""){
+    let statusBoxElement = document.getElementById("credit-{{credit.number}}-status-box-{{stage_name}}");
+    let statusBoxInfoElement = document.getElementById("credit-{{credit.number}}-status-box-{{stage_name}}-info");
+
+    statusBoxElement.addEventListener("mouseenter", () => {
+      statusBoxInfoElement.classList.remove("hidden")
+    })
+    statusBoxElement.addEventListener("mouseleave", () => {
+      statusBoxInfoElement.classList.add("hidden")
+    })
+  }</script>
 {%- endmacro -%}
 
 {%- macro empty_status_bar_box() -%}
@@ -12,23 +28,14 @@
   </div>
 {%- endmacro -%}
 
-{%- macro status_bar(stages = {}, with_text=false) -%}
-  <div class="flex gap-1 font-[IBMPlexSans]" role="region">
-    {{ status_bar_box(stages.online_form) }}
-    {{ status_bar_box(stages.documents) }}
-    {{ status_bar_box(stages.tests) }}
-    {{ status_bar_box(stages.security) }}
-    {{ status_bar_box(stages.final_decision) }}
+{%- macro status_bar(credit) -%}
+    <div class="flex gap-1 font-[IBMPlexSans]" role="region">
+    {{ status_bar_box(credit, 'online_form') }}
+    {{ status_bar_box(credit, 'documents') }}
+    {{ status_bar_box(credit, 'tests') }}
+    {{ status_bar_box(credit, 'security') }}
+    {{ status_bar_box(credit, 'final_decision') }}
   </div>
-  {% if with_text is true %}
-    <div class="flex flex-col font-[IBMPlexSans] text-sm/4 mt-1">
-      {{ status_bar_text(stages.online_form) }}
-      {{ status_bar_text(stages.documents) }}
-      {{ status_bar_text(stages.tests) }}
-      {{ status_bar_text(stages.security) }}
-      {{ status_bar_text(stages.final_decision) }}
-    </div>
-  {% endif %}
 {%- endmacro -%}
 
 {%- macro empty_status_bar() -%}
@@ -38,5 +45,22 @@
     {{ empty_status_bar_box() }}
     {{ empty_status_bar_box() }}
     {{ empty_status_bar_box() }}
+  </div>
+{%- endmacro -%}
+
+{%- macro status_bar_with_text(credit) -%}
+  <div class="flex gap-1 font-[IBMPlexSans]" role="region">
+    {{ status_bar_box(credit, 'online_form') }}
+    {{ status_bar_box(credit, 'documents') }}
+    {{ status_bar_box(credit, 'tests') }}
+    {{ status_bar_box(credit, 'security') }}
+    {{ status_bar_box(credit, 'final_decision') }}
+  </div>
+  <div class="flex flex-col font-[IBMPlexSans] text-sm/4 mt-1">
+    {{ status_bar_text(credit.stages.online_form) }}
+    {{ status_bar_text(credit.stages.documents) }}
+    {{ status_bar_text(credit.stages.tests) }}
+    {{ status_bar_text(credit.stages.security) }}
+    {{ status_bar_text(credit.stages.final_decision) }}
   </div>
 {%- endmacro -%}
