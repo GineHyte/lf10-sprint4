@@ -52,7 +52,11 @@ async def read_credit_request_detail(
     response = render_template(
         request,
         "credit_request_stage1.j2",
-        {"request": request, "credit": credits.credits[0], "session": session},
+        {
+            "request": request,
+            "credit": list(filter(lambda x: x["number"] == credit_number, credits.credits))[0],
+            "session": session,
+        },
     )
     attach_session_to_response(response, request)
     return response
@@ -65,7 +69,6 @@ async def read_credit_request_new(
     session.credit_number = None
     session.current_step = 1
     session.frontend_variables.title = "Neuen Kreditantrag erfassen"
-    await save_session(request, session)
     await save_session(request, session)
 
     response = render_template(

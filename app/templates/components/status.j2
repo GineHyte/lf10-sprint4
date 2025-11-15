@@ -1,21 +1,34 @@
-{%- macro status_bar_box(credit, stage_name) -%}
-  <div id="credit-{{credit.number}}-status-box-{{stage_name}}" class="w-8 h-2 bg-{{ statusToClass(credit.stages[stage_name].status) }} relative">
-    <div id="credit-{{credit.number}}-status-box-{{stage_name}}-info" class="hidden absolute h-auto w-50 left-[-6rem] top-[1rem] bg-gray-900 rounded-xl p-2 text-center">
-      <span class="font-[IBMPlexSans] text-white text-sm">{{ credit.stages[stage_name].text }}</span>
-    </div>
+{%- macro status_bar_box(credit_number, status_obj) -%}
+<div id="credit-{{credit_number}}-status-box-|no-number|"
+  class="w-8 h-2 bg-{{ statusToClass(status_obj.status) }} relative">
+  <div id="credit-{{credit_number}}-status-box-|no-number|-info"
+    class="hidden absolute h-auto w-50 left-[-6rem] top-[1rem] bg-gray-900 rounded-xl p-2 text-center">
+    <span class="font-[IBMPlexSans] text-white text-sm">{{ status_obj.text }}</span>
   </div>
-  <script>
-  if ("{{statusToClass(credit.stages[stage_name].status)}}" !== ""){
-    let statusBoxElement = document.getElementById("credit-{{credit.number}}-status-box-{{stage_name}}");
-    let statusBoxInfoElement = document.getElementById("credit-{{credit.number}}-status-box-{{stage_name}}-info");
+</div>
+<script>
+  if ("{{statusToClass(status_obj.status)}}" !== "gray-400") {
+    let statusBoxesCounter = window.sessionStorage.getItem("statusBoxesCounter")
+    if (!statusBoxesCounter) {
+      statusBoxesCounter = 1;
+    } else {
+      statusBoxesCounter += 1;
+    }
+    let statusBoxElement = document.getElementById("credit-{{credit_number}}-status-box-|no-number|");
+    statusBoxElement.id = statusBoxElement.id.replace("|no-number|", statusBoxesCounter)
+    let statusBoxInfoElement = document.getElementById("credit-{{credit_number}}-status-box-|no-number|-info");
+    statusBoxInfoElement.id = statusBoxInfoElement.id.replace("|no-number|", statusBoxesCounter)
 
-    statusBoxElement.addEventListener("mouseenter", () => {
+    statusBoxElement.addEventListener("mouseenter", (e) => {
       statusBoxInfoElement.classList.remove("hidden")
     })
     statusBoxElement.addEventListener("mouseleave", () => {
       statusBoxInfoElement.classList.add("hidden")
     })
-  }</script>
+
+    window.sessionStorage.setItem("statusBoxesCounter", statusBoxesCounter);
+  }
+</script>
 {%- endmacro -%}
 
 {%- macro empty_status_bar_box() -%}
@@ -28,13 +41,20 @@
   </div>
 {%- endmacro -%}
 
-{%- macro status_bar(credit) -%}
-    <div class="flex gap-1 font-[IBMPlexSans]" role="region">
-    {{ status_bar_box(credit, 'online_form') }}
-    {{ status_bar_box(credit, 'documents') }}
-    {{ status_bar_box(credit, 'tests') }}
-    {{ status_bar_box(credit, 'security') }}
-    {{ status_bar_box(credit, 'final_decision') }}
+{%- macro global_status_bar(credit_number, stages) -%}
+  <div class="flex gap-1 font-[IBMPlexSans]" role="region">
+    {{ status_bar_box(credit_number, stages.online_form) }}
+    {{ status_bar_box(credit_number, stages.documents) }}
+    {{ status_bar_box(credit_number, stages.tests) }}
+    {{ status_bar_box(credit_number, stages.security) }}
+    {{ status_bar_box(credit_number, stages.final_decision) }}
+  </div>
+{%- endmacro -%}
+
+{%- macro online_form_status_bar(credit_number, stages) -%}
+  <div class="flex gap-1 font-[IBMPlexSans]" role="region">
+    {{ status_bar_box(credit_number, stages.credit_format) }}
+    {{ status_bar_box(credit_number, stages.personal_data) }}
   </div>
 {%- endmacro -%}
 
@@ -48,19 +68,13 @@
   </div>
 {%- endmacro -%}
 
-{%- macro status_bar_with_text(credit) -%}
-  <div class="flex gap-1 font-[IBMPlexSans]" role="region">
-    {{ status_bar_box(credit, 'online_form') }}
-    {{ status_bar_box(credit, 'documents') }}
-    {{ status_bar_box(credit, 'tests') }}
-    {{ status_bar_box(credit, 'security') }}
-    {{ status_bar_box(credit, 'final_decision') }}
-  </div>
+{%- macro global_status_bar_with_text(credit_number, stages) -%}
+  {{ global_status_bar(credit_number, stages)}}
   <div class="flex flex-col font-[IBMPlexSans] text-sm/4 mt-1">
-    {{ status_bar_text(credit.stages.online_form) }}
-    {{ status_bar_text(credit.stages.documents) }}
-    {{ status_bar_text(credit.stages.tests) }}
-    {{ status_bar_text(credit.stages.security) }}
-    {{ status_bar_text(credit.stages.final_decision) }}
+    {{ status_bar_text(stages.online_form) }}
+    {{ status_bar_text(stages.documents) }}
+    {{ status_bar_text(stages.tests) }}
+    {{ status_bar_text(stages.security) }}
+    {{ status_bar_text(stages.final_decision) }}
   </div>
 {%- endmacro -%}

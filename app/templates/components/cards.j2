@@ -1,14 +1,14 @@
-{% from 'components/status.j2' import status_bar, empty_status_bar, status_bar_with_text with context %}
+{% from 'components/status.j2' import global_status_bar, empty_status_bar, global_status_bar_with_text with context %}
 
 {%- macro credit_request_card(credit) -%}
-  <div class="relative bg-gray-100 w-114 h-44 font-[IBMPlexSans] p-4 hover:bg-gray-200 cursor-{{ getCursorTwClassFromOnlineFormStatus(credit.stages.online_form.status) }}"
+  <div class="relative bg-gray-100 w-full h-44 font-[IBMPlexSans] p-4 hover:bg-gray-200 cursor-{{ getCursorTwClassFromOnlineFormStatus(credit.global_stages.online_form.status) }}"
        role="region"
        id="credit-request-card-{{ credit.number }}">
     <p class="text-2xl mb-1">Kreditantrag № {{ credit.number }}</p>
     <div class="absolute right-4 top-6">
       <img height="100%" width="100%" alt="menu" src="{{ url_for('static', path='images/arrow_right.svg') }}" />
     </div>
-    {{ status_bar_with_text(credit) }}
+    {{ global_status_bar_with_text(credit.number, credit.global_stages) }}
   </div>
   <script type="module">
     import EventController from "{{ url_for('static', path='js/eventController.js') }}"
@@ -17,7 +17,7 @@
         window.location = "/credit_request/{{ credit.number }}";
       }
 
-      if ("{{ getCursorTwClassFromOnlineFormStatus(credit.stages.online_form.status) }}" === "pointer") {
+      if ("{{ getCursorTwClassFromOnlineFormStatus(credit.global_stages.online_form.status) }}" === "pointer") {
         let creditRequestCardElement = document.getElementById(`credit-request-card-{{ credit.number }}`)
         creditRequestCardElement.addEventListener("click", redirectToCreditRequestPage);
       }
@@ -26,7 +26,7 @@
 {%- endmacro -%}
 
 {%- macro credit_new_request_card() -%}
-  <div class="relative bg-gray-100 w-114 h-44 font-[IBMPlexSans] p-4 hover:bg-gray-200 cursor-pointer"
+  <div class="relative bg-gray-100 w-full h-44 font-[IBMPlexSans] p-4 hover:bg-gray-200 cursor-pointer"
        role="region"
        id="new-credit-request-card">
     <p class="text-2xl mb-1">Neuen Kreditantrag erfassen</p>
