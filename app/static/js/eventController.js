@@ -54,26 +54,26 @@ class EventController {
         this.#sendMessage(3)
     }
 
-    async setCreditSessionFrontendVariable(key, value, waitForResponse = false) {
+    async setCreditSessionFrontendVariable(key, value, wait_for_response = false) {
         const type = 2;
         const payload = { key, value };
 
-        return await this.#sendMessage(type, payload, waitForResponse);
+        return await this.#sendMessage(type, payload, wait_for_response);
     }
 
     /**
      * Send a message via WebSocket
      * @param {number} type - Message type
      * @param {object} payload - Message payload
-     * @param {boolean} waitForResponse - Whether to wait for backend confirmation
+     * @param {boolean} wait_for_response - Whether to wait for backend confirmation
      * @returns {Promise<void>} Resolves when message is sent (or confirmed if waiting)
      */
-    #sendMessage(type, payload = undefined, waitForResponse = false) {
-        if (!waitForResponse) {
+    #sendMessage(type, payload = undefined, wait_for_response = false) {
+        if (!wait_for_response) {
             return new Promise((resolve, reject) => {
                 const message = payload
-                    ? JSON.stringify({ type, payload, waitForResponse: false })
-                    : JSON.stringify({ type, waitForResponse: false });
+                    ? JSON.stringify({ type, payload, wait_for_response: false })
+                    : JSON.stringify({ type, wait_for_response: false });
 
                 this.#sendToWebSocket(message, (error) => {
                     if (error) reject(error);
@@ -97,8 +97,8 @@ class EventController {
             });
 
             const message = payload
-                ? JSON.stringify({ type, payload, waitForResponse: true, requestId })
-                : JSON.stringify({ type, waitForResponse: true, requestId });
+                ? JSON.stringify({ type, payload, wait_for_response: true, requestId })
+                : JSON.stringify({ type, wait_for_response: true, requestId });
 
             this.#sendToWebSocket(message, (error) => {
                 if (error) {

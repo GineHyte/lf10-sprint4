@@ -1,6 +1,8 @@
-from typing import Any, Dict, Optional
+from typing import Optional
 
 from pydantic import BaseModel, Field
+
+from app.schemas.credit import Credit
 
 
 class FrontendVariables(BaseModel):
@@ -8,7 +10,6 @@ class FrontendVariables(BaseModel):
 
 
 class CreditSession(BaseModel):
-    credit_number: Optional[str] = None
-    current_step: int = 1
-    payload: Dict[str, Any] = Field(default_factory=dict)
+    current_stage: str = ""
+    credit: Optional[Credit] = None
     frontend_variables: FrontendVariables = FrontendVariables()

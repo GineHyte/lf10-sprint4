@@ -1,23 +1,21 @@
 {%- macro status_bar_box(credit_number, status_obj) -%}
 <div id="credit-{{credit_number}}-status-box-|no-number|"
-  class="w-8 h-2 bg-{{ statusToClass(status_obj.status) }} relative">
+  class="w-8 h-2 bg-{{ statusToClass(status_obj.status) }} relative cursor-pointer">
   <div id="credit-{{credit_number}}-status-box-|no-number|-info"
     class="hidden absolute h-auto w-50 left-[-6rem] top-[1rem] bg-gray-900 rounded-xl p-2 text-center">
     <span class="font-[IBMPlexSans] text-white text-sm">{{ status_obj.text }}</span>
   </div>
 </div>
 <script>
+(() => {
   if ("{{statusToClass(status_obj.status)}}" !== "gray-400") {
-    let statusBoxesCounter = window.sessionStorage.getItem("statusBoxesCounter")
-    if (!statusBoxesCounter) {
-      statusBoxesCounter = 1;
-    } else {
-      statusBoxesCounter += 1;
-    }
+    const hash = randomHex();
     let statusBoxElement = document.getElementById("credit-{{credit_number}}-status-box-|no-number|");
-    statusBoxElement.id = statusBoxElement.id.replace("|no-number|", statusBoxesCounter)
+    if (!statusBoxElement) return
+    statusBoxElement.id = statusBoxElement.id.replace("|no-number|", hash)
     let statusBoxInfoElement = document.getElementById("credit-{{credit_number}}-status-box-|no-number|-info");
-    statusBoxInfoElement.id = statusBoxInfoElement.id.replace("|no-number|", statusBoxesCounter)
+    if (!statusBoxInfoElement) return
+    statusBoxInfoElement.id = statusBoxInfoElement.id.replace("|no-number|", hash)
 
     statusBoxElement.addEventListener("mouseenter", (e) => {
       statusBoxInfoElement.classList.remove("hidden")
@@ -25,9 +23,8 @@
     statusBoxElement.addEventListener("mouseleave", () => {
       statusBoxInfoElement.classList.add("hidden")
     })
-
-    window.sessionStorage.setItem("statusBoxesCounter", statusBoxesCounter);
   }
+})()
 </script>
 {%- endmacro -%}
 

@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 
 from app.core.logger import logger
 from app.core.templates import render_template
+from app.schemas.credit import Credit
 from app.schemas.session import CreditSession
 from app.scripts.session_controller import (
     attach_session_to_response,
@@ -19,12 +20,9 @@ router = APIRouter()
 async def read_index(
     request: Request,
     session: CreditSession = Depends(get_session),
-    session_reference=Depends(session_cookie),
 ):
     session.frontend_variables.title = "Kreditanträge"
     await save_session(request, session)
-
-    logger.info(f"rest session: {session_reference}")
 
     response = render_template(
         request,
@@ -45,16 +43,18 @@ async def read_credit_request_detail(
     request: Request,
     session: CreditSession = Depends(get_session),
 ):
-    session.credit_number = str(credit_number)
+    session.credit = list(
+        filter(lambda x: x["number"] == credit_number, credits.credits)
+    )[0]
     session.frontend_variables.title = "Kreditantrag №" + str(credit_number)
     await save_session(request, session)
 
     response = render_template(
         request,
-        "credit_request_stage1.j2",
+        "credit_request_base.j2",
         {
             "request": request,
-            "credit": list(filter(lambda x: x["number"] == credit_number, credits.credits))[0],
+            "credit": session.credit,
             "session": session,
         },
     )
@@ -66,14 +66,14 @@ async def read_credit_request_detail(
 async def read_credit_request_new(
     request: Request, session: CreditSession = Depends(get_session)
 ):
-    session.credit_number = None
-    session.current_step = 1
+    session.credit = Credit()
+    session.current_stage = "credit_format"
     session.frontend_variables.title = "Neuen Kreditantrag erfassen"
     await save_session(request, session)
 
     response = render_template(
         request,
-        "credit_request_stage1.j2",
+        "credit_request_base.j2",
         {"request": request, "session": session},
     )
     attach_session_to_response(response, request)

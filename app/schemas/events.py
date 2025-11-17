@@ -13,8 +13,8 @@ class EventType(Enum):
 class Event(BaseModel):
     type: EventType
     payload: Optional[Dict] = None
-    waitForResponse: bool = False
-    requestId: Optional[int] = None  # Only used when waitForResponse=True
+    wait_for_response: bool = False
+    requestId: Optional[int] = None  # Only used when wait_for_response=True
 
 
 class SetCreditSessionVariablePayload(BaseModel):

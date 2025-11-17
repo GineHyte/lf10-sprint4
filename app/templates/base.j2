@@ -1,6 +1,7 @@
+{% from 'components/left_nav_menu.j2' import left_nav_menu with context %}
+
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,9 +11,28 @@
     <!-- Tailwind (CDN) - suitable for demo/development. For production use the Tailwind build process. -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="{{ url_for('static', path='css/global.css') }}" />
+    <script src="{{ url_for('static', path='js/utils.js') }}"></script>
     <script type="module">
       import EventController from "{{ url_for('static', path='js/eventController.js') }}";
       EventController.getInstance();
+
+      function onMenuButtonClick() {
+        const leftNavMenuElement = document.getElementById("left-nav-menu");
+        const leftNavMenuButtonImgElement = document.getElementById("left-nav-menu-button-img");
+        const leftNavMenuOpen = window.leftNavMenuOpen;
+        if (!leftNavMenuOpen) {
+          leftNavMenuElement.classList.remove("hidden")
+          leftNavMenuButtonImgElement.src = "{{ url_for('static', path='images/close.svg') }}";
+          window.leftNavMenuOpen = true;
+          return
+        }
+        leftNavMenuElement.classList.add("hidden")
+        leftNavMenuButtonImgElement.src = "{{ url_for('static', path='images/menu_3liner.svg') }}";
+        window.leftNavMenuOpen = false; 
+      }
+
+      document.getElementById("left-nav-menu-button").addEventListener("click", onMenuButtonClick);
+      document.getElementById("left-nav-menu-background").addEventListener("click", onMenuButtonClick);
     </script>
   </head>
   <body>
@@ -20,8 +40,8 @@
     <header class="top-0 h-12 border-b-1 w-full" role="banner">
       <div class="flex">
         <div class="p-2 border-r-1 size-12 flex items-center justify-center">
-          <button>
-            <img class="size-5" src="{{ url_for('static', path='images/menu_3liner.svg') }}" />
+          <button id="left-nav-menu-button" class="cursor-pointer">
+            <img id="left-nav-menu-button-img" class="size-5" src="{{ url_for('static', path='images/menu_3liner.svg') }}" />
           </button>
         </div>
         <div class="flex justify-between w-full">
@@ -29,7 +49,6 @@
             <span class="font-light text-3xl font-[IBMPlexSans] mt-1 ml-5">{{ session.frontend_variables.title }}</span>
             <div class="ml-5 border-l-1 my-auto h-6"></div>
           </div>
-
           <div class="flex justify-end pe-2">
             <div class="flex justify-between w-20 gap-3">
               <img class="size-8 w-10 my-auto" src="{{ url_for('static', path='images/support.svg') }}" />
@@ -39,6 +58,7 @@
         </div>
       </div>
     </header>
+    {{ left_nav_menu(12) }}
     <main>
       {% block content %}{% endblock %}
     </main>

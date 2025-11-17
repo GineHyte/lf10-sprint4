@@ -31,14 +31,14 @@ async def websocket_endpoint(
         )
         logger.info(f"Processing event: {event.type} (requestId: {event.requestId})")
 
-        if not process_json_event(event, session):
+        if not process_json_event(websocket, event, session):
             logger.warning(f"Event processing returned False, closing connection")
             break
 
         await save_session(websocket, session)
 
         # Send confirmation if client is waiting for response
-        if event.waitForResponse and event.requestId is not None:
+        if event.wait_for_response and event.requestId is not None:
             await websocket.send_json({"requestId": event.requestId, "ok": True})
             logger.debug(f"Sent confirmation for requestId: {event.requestId}")
 

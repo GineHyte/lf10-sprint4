@@ -1,1 +1,18 @@
-{% macro text_input(title, placeholder = "") %}
+{% macro text_input(title, placeholder, for) %}
+  <div class="">
+    <label>{{ title }}</label>
+    <input id="text-input-{{stage.id}}-{{for}}" type="text" for="{{for}}" value="{{placeholder}}"/>
+    <script type="module">
+      const textInputelement = document.getElementById("text-input-{{stage.id}}-{{for}}");
+      
+    </script>
+  </div>
+{%- endmacro -%}
+
+{%- macro button(title, type, size="md") -%}
+  <input type="{{getHtmlTypeFromInputType(type)}}" 
+         class="{{getTwClassesFromInputType(type)}} {{getTwClassesFromInputSize(size)}} font-[IBMPlexSans] font-light text-3xl cursor-pointer {{getTwHoverClassesFromInputType(type)}}" 
+         value="{{title}}"/>
+{%- endmacro -%}
+
+{}

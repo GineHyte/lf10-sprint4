@@ -1,18 +1,40 @@
 {% extends "base.j2" %}
 
 {% from 'components/status.j2' import online_form_status_bar, empty_status_bar with context %}
+{% from 'components/inputs.j2' import button with context %}
 
 {% block content %}
+  <script type="module">
+    import ApiController from "{{ url_for('static', path='js/apiController.js') }}";
+
+    const stageContentElement = document.getElementById("stage-content");
+    const apiController = ApiController.getInstance();
+    
+    async function renderOnlineFormStage(stage) {
+      console.log("test")
+      const html = apiController.renderOnlineFormStage(stage);
+      stageContentElement.innerHTML = html;
+    }
+      console.log("test")
+
+    new Promise(async () => await renderOnlineFormStage("credit_format"));
+  </script>
+
   <div class="flex w-full h-[90vh] justify-center font-[IBMPlexSans]">
     <div class="flex w-4/5 bg-gray-100 h-[95%] mt-5 flex-col">
-      <div class="py-4 border-b-1 p-3 h-19 w-full flex flex-col gap-2">
-        <span class="text-2xl font-light">Schritt {{session.current_step}}: <span class="font-medium">Kreditanfrage</span></span>
-        {{ credit }}
-        {{ online_form_status_bar(credit.number, credit.online_form_stages) }} 
-      </div>
-      <div class="p-4">
-        {% block form %}
-        {% endblock form %}
+      <div class="flex flex-col justify-between h-full">
+        <div class="flex flex-col">
+          <div class="py-4 border-b-1 p-3 h-19 w-full flex flex-col gap-2">
+            <span class="text-2xl font-light">Schritt {{session.current_step}}: <span class="font-medium">Kreditanfrage</span></span>
+            {{ online_form_status_bar(credit.number, credit.online_form_stages) }} 
+          </div>
+          <div class="p-4" id="stage-content">
+          </div>
+        </div>
+        <div class="flex justify-between w-full">
+          {{ button("Zurück", "cancel") }}
+          {{ button("Weiter", "submit") }}
+        </div>
       </div>
     </div>
   </div>
