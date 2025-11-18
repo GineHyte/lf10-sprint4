@@ -10,7 +10,7 @@ from app.scripts.session_controller import (
     save_session,
 )
 
-router = APIRouter(prefix="/components")
+router = APIRouter(prefix="/components", tags=["components"])
 
 
 def _online_form_stage_allowed(session: CreditSession, stage: str) -> bool:
@@ -31,6 +31,7 @@ async def get_online_form_stage(
     request: Request,
     session: CreditSession = Depends(get_session),
 ):
+    print(session.credit)
     if not _online_form_stage_allowed(session, stage):
         return HTMLResponse()
 

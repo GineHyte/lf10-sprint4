@@ -10,20 +10,8 @@ class StageStatus(Enum):
     NONE = "none"
 
 
-class GlobalStageId(Enum):
-    ONLINE_FORM = "online_form"
-    DOCUMENTS = "documents"
-    TESTS = "tests"
-    SECURITY = "security"
-    FINAL_DECISION = "final_decision"
-
-
-class OnlineFormStageId(Enum):
-    CREDIT_FORMAT = "credit_format"
-    PERSONAL_DATA = "personal_data"
-
-
 class Stage(BaseModel):
+    id: str
     status: StageStatus
     text: str
 
@@ -32,7 +20,6 @@ class GlobalStage(Stage): ...
 
 
 class OnlineFormStage(Stage):
-    id: GlobalStageId
     title: str
     data: Optional[dict] = {}
 

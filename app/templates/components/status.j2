@@ -1,21 +1,18 @@
-{%- macro status_bar_box(credit_number, status_obj) -%}
-<div id="credit-{{credit_number}}-status-box-|no-number|"
-  class="w-8 h-2 bg-{{ statusToClass(status_obj.status) }} relative cursor-pointer">
-  <div id="credit-{{credit_number}}-status-box-|no-number|-info"
+{%- macro status_bar_box(credit_number, stage) -%}
+<div id="credit-{{credit_number}}-status-box-{{stage.id}}"
+  class="w-8 h-2 bg-{{ statusToClass(stage.status) }} relative cursor-pointer">
+  <div id="credit-{{credit_number}}-status-box-{{stage.id}}-info"
     class="hidden absolute h-auto w-50 left-[-6rem] top-[1rem] bg-gray-900 rounded-xl p-2 text-center">
-    <span class="font-[IBMPlexSans] text-white text-sm">{{ status_obj.text }}</span>
+    <span class="font-[IBMPlexSans] text-white text-sm">{{ stage.text }}</span>
   </div>
 </div>
 <script>
 (() => {
-  if ("{{statusToClass(status_obj.status)}}" !== "gray-400") {
-    const hash = randomHex();
-    let statusBoxElement = document.getElementById("credit-{{credit_number}}-status-box-|no-number|");
+  if ("{{statusToClass(stage.status)}}" !== "gray-400") {
+    let statusBoxElement = document.getElementById("credit-{{credit_number}}-status-box-{{stage.id}}");
     if (!statusBoxElement) return
-    statusBoxElement.id = statusBoxElement.id.replace("|no-number|", hash)
-    let statusBoxInfoElement = document.getElementById("credit-{{credit_number}}-status-box-|no-number|-info");
+    let statusBoxInfoElement = document.getElementById("credit-{{credit_number}}-status-box-{{stage.id}}-info");
     if (!statusBoxInfoElement) return
-    statusBoxInfoElement.id = statusBoxInfoElement.id.replace("|no-number|", hash)
 
     statusBoxElement.addEventListener("mouseenter", (e) => {
       statusBoxInfoElement.classList.remove("hidden")
@@ -40,11 +37,9 @@
 
 {%- macro global_status_bar(credit_number, stages) -%}
   <div class="flex gap-1 font-[IBMPlexSans]" role="region">
-    {{ status_bar_box(credit_number, stages.online_form) }}
-    {{ status_bar_box(credit_number, stages.documents) }}
-    {{ status_bar_box(credit_number, stages.tests) }}
-    {{ status_bar_box(credit_number, stages.security) }}
-    {{ status_bar_box(credit_number, stages.final_decision) }}
+    {%- for stage in stages %}
+      {{status_bar_box(credit_number, stage)}}
+    {% endfor %}
   </div>
 {%- endmacro -%}
 

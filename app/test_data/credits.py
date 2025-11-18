@@ -1,62 +1,49 @@
 credits = [
     {
         "number": 1,
-        "global_stages": {
-            "online_form": {
-                "status": "done",
-                "text": "Sie haben das Formular online ausgefüllt",
-            },
-            "documents": {
-                "status": "pending",
-                "text": "Wird bei unserer Seite bearbeitet",
-            },
-            "tests": {"status": "none", "text": ""},
-            "security": {"status": "none", "text": ""},
-            "final_decision": {"status": "none", "text": ""},
-        },
+        "global_stages": [
+            {"id": "online_form", "status": "done", "text": "Sie haben das Formular online ausgefüllt"},
+            {"id": "documents", "status": "pending", "text": "Wird bei unserer Seite bearbeitet"},
+            {"id": "tests", "status": "none", "text": ""},
+            {"id": "security", "status": "none", "text": ""},
+            {"id": "final_decision", "status": "none", "text": ""},
+        ],
+        "online_form_stages": [],
         "created_at": "2025-11-03 10:00",
         "updated_at": "2025-11-03 12:00",
     },
     {
         "number": 2,
-        "global_stages": {
-            "online_form": {
-                "status": "done",
-                "text": "Sie haben das Formular online ausgefüllt",
-            },
-            "documents": {
-                "status": "pending",
-                "text": "Wird bei unserer Seite bearbeitet",
-            },
-            "tests": {"status": "none", "text": ""},
-            "security": {"status": "none", "text": ""},
-            "final_decision": {"status": "none", "text": ""},
-        },
+        "global_stages": [
+            {"id": "online_form", "status": "done", "text": "Sie haben das Formular online ausgefüllt"},
+            {"id": "documents", "status": "pending", "text": "Wird bei unserer Seite bearbeitet"},
+            {"id": "tests", "status": "none", "text": ""},
+            {"id": "security", "status": "none", "text": ""},
+            {"id": "final_decision", "status": "none", "text": ""},
+        ],
+        "online_form_stages": [],
         "created_at": "2025-11-03 10:00",
         "updated_at": "2025-11-03 12:00",
     },
     {
         "number": 3,
-        "global_stages": {
-            "online_form": {
-                "status": "pending",
-                "text": "Das Folmular wird bearbeitet",
-            },
-            "documents": {"status": "none", "text": ""},
-            "tests": {"status": "none", "text": ""},
-            "security": {"status": "none", "text": ""},
-            "final_decision": {"status": "none", "text": ""},
-        },
-        "online_form_stages": {
-            "credit_format": {
+        "global_stages": [
+            {"id": "online_form", "status": "pending", "text": "Das Folmular wird bearbeitet"},
+            {"id": "documents", "status": "none", "text": ""},
+            {"id": "tests", "status": "none", "text": ""},
+            {"id": "security", "status": "none", "text": ""},
+            {"id": "final_decision", "status": "none", "text": ""},
+        ],
+        "online_form_stages": [
+            {
+                "id": "credit_format",
                 "status": "done",
                 "text": "Hier sollen Sie den Kreditantragsformular auswählen.",
                 "title": "Kreditantragsformular",
-                "data": {
-                    "credit_format": "INSTANT_CREDIT",
-                },
+                "data": {"credit_format": "INSTANT_CREDIT"},
             },
-            "personal_data": {
+            {
+                "id": "personal_data",
                 "status": "done",
                 "text": "Hier werden pesonbezogene Daten abgefragt.",
                 "title": "Personenbezogene Daten",
@@ -74,32 +61,29 @@ credits = [
                     "homeland": "Ukraine",
                 },
             },
-        },
+        ],
         "created_at": "2025-11-03 10:00",
         "updated_at": "2025-11-03 12:00",
     },
     {
         "number": 4,
-        "global_stages": {
-            "online_form": {
-                "status": "done",
-                "text": "Sie haben das Formular online ausgefüllt",
-            },
-            "documents": {"status": "done", "text": "Ihre Dokumente wurden genehmigt"},
-            "tests": {"status": "done", "text": "Alle Tests wurden bestanden"},
-            "security": {"status": "done", "text": "Sicherheitsprüfung bestanden"},
-            "final_decision": {"status": "done", "text": "Kredit genehmigt"},
-        },
-        "online_form_stages": {
-            "credit_format": {
+        "global_stages": [
+            {"id": "online_form", "status": "done", "text": "Sie haben das Formular online ausgefüllt"},
+            {"id": "documents", "status": "done", "text": "Ihre Dokumente wurden genehmigt"},
+            {"id": "tests", "status": "done", "text": "Alle Tests wurden bestanden"},
+            {"id": "security", "status": "done", "text": "Sicherheitsprüfung bestanden"},
+            {"id": "final_decision", "status": "done", "text": "Kredit genehmigt"},
+        ],
+        "online_form_stages": [
+            {
+                "id": "credit_format",
                 "status": "done",
                 "text": "Hier sollen Sie den Kreditantragsformular auswählen.",
                 "title": "Kreditantragsformular",
-                "data": {
-                    "credit_format": "INSTANT_CREDIT",
-                },
+                "data": {"credit_format": "INSTANT_CREDIT"},
             },
-            "personal_data": {
+            {
+                "id": "personal_data",
                 "status": "done",
                 "text": "Hier werden pesonbezogene Daten abgefragt.",
                 "title": "Personenbezogene Daten",
@@ -117,7 +101,7 @@ credits = [
                     "homeland": "Ukraine",
                 },
             },
-        },
+        ],
         "created_at": "2025-11-03 10:00",
         "updated_at": "2025-11-03 12:00",
     },

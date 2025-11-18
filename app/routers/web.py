@@ -43,9 +43,9 @@ async def read_credit_request_detail(
     request: Request,
     session: CreditSession = Depends(get_session),
 ):
-    session.credit = list(
+    session.credit = Credit.model_validate(list(
         filter(lambda x: x["number"] == credit_number, credits.credits)
-    )[0]
+    )[0])
     session.frontend_variables.title = "Kreditantrag №" + str(credit_number)
     await save_session(request, session)
 

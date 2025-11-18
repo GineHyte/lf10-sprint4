@@ -18,8 +18,9 @@ app.add_middleware(
 app.include_router(web.router)
 app.include_router(events.router)
 
-api_router = APIRouter(prefix="/api")
-app.include_router(components.router)
+api_router = APIRouter(prefix="/api", tags=["api"])
+api_router.include_router(components.router)
+app.include_router(api_router)
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
