@@ -1,5 +1,5 @@
 import axios from "https://cdn.jsdelivr.net/npm/axios@latest/+esm";
-import NotificationController from ;
+import NotificationController from "{{url_for('static', 'js/notificationController.js')}}";
 
 export class ApiError {
     constructor(apiRequest) {

@@ -22,5 +22,4 @@ api_router = APIRouter(prefix="/api")
 app.include_router(components.router)
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
-
 templates = Jinja2Templates(directory="app/templates")
