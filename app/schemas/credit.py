@@ -8,6 +8,7 @@ class StageStatus(Enum):
     DONE = "done"
     PENDING = "pending"
     NONE = "none"
+    CANCELED = "canceled"
 
 
 class Stage(BaseModel):

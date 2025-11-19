@@ -1,9 +1,19 @@
-credits = [
+from app.schemas.credit import Credit
+
+__credits = [
     {
         "number": 1,
         "global_stages": [
-            {"id": "online_form", "status": "done", "text": "Sie haben das Formular online ausgefüllt"},
-            {"id": "documents", "status": "pending", "text": "Wird bei unserer Seite bearbeitet"},
+            {
+                "id": "online_form",
+                "status": "done",
+                "text": "Sie haben das Formular online ausgefüllt",
+            },
+            {
+                "id": "documents",
+                "status": "pending",
+                "text": "Wird bei unserer Seite bearbeitet",
+            },
             {"id": "tests", "status": "none", "text": ""},
             {"id": "security", "status": "none", "text": ""},
             {"id": "final_decision", "status": "none", "text": ""},
@@ -15,8 +25,16 @@ credits = [
     {
         "number": 2,
         "global_stages": [
-            {"id": "online_form", "status": "done", "text": "Sie haben das Formular online ausgefüllt"},
-            {"id": "documents", "status": "pending", "text": "Wird bei unserer Seite bearbeitet"},
+            {
+                "id": "online_form",
+                "status": "done",
+                "text": "Sie haben das Formular online ausgefüllt",
+            },
+            {
+                "id": "documents",
+                "status": "pending",
+                "text": "Wird bei unserer Seite bearbeitet",
+            },
             {"id": "tests", "status": "none", "text": ""},
             {"id": "security", "status": "none", "text": ""},
             {"id": "final_decision", "status": "none", "text": ""},
@@ -28,7 +46,11 @@ credits = [
     {
         "number": 3,
         "global_stages": [
-            {"id": "online_form", "status": "pending", "text": "Das Folmular wird bearbeitet"},
+            {
+                "id": "online_form",
+                "status": "pending",
+                "text": "Das Folmular wird bearbeitet",
+            },
             {"id": "documents", "status": "none", "text": ""},
             {"id": "tests", "status": "none", "text": ""},
             {"id": "security", "status": "none", "text": ""},
@@ -68,10 +90,22 @@ credits = [
     {
         "number": 4,
         "global_stages": [
-            {"id": "online_form", "status": "done", "text": "Sie haben das Formular online ausgefüllt"},
-            {"id": "documents", "status": "done", "text": "Ihre Dokumente wurden genehmigt"},
+            {
+                "id": "online_form",
+                "status": "done",
+                "text": "Sie haben das Formular online ausgefüllt",
+            },
+            {
+                "id": "documents",
+                "status": "done",
+                "text": "Ihre Dokumente wurden genehmigt",
+            },
             {"id": "tests", "status": "done", "text": "Alle Tests wurden bestanden"},
-            {"id": "security", "status": "done", "text": "Sicherheitsprüfung bestanden"},
+            {
+                "id": "security",
+                "status": "done",
+                "text": "Sicherheitsprüfung bestanden",
+            },
             {"id": "final_decision", "status": "done", "text": "Kredit genehmigt"},
         ],
         "online_form_stages": [
@@ -106,3 +140,6 @@ credits = [
         "updated_at": "2025-11-03 12:00",
     },
 ]
+
+
+credits = list(map(lambda credit: Credit.model_validate(credit), __credits))

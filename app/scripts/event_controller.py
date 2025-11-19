@@ -8,12 +8,13 @@ event: Event  # static
 session: CreditSession  # static
 
 
-def process_json_event(prop_event: Event, prop_session: CreditSession) -> bool:
+def process_json_event(prop_websocket: WebSocket, prop_event: Event, prop_session: CreditSession) -> bool:
     """If returns false -> close the connection"""
     global event, session, websocket
 
     event = prop_event
     session = prop_session
+    websocket = prop_websocket
 
     match event.type:
         case EventType.SET_CREDIT_SESSION_VARIABLE:

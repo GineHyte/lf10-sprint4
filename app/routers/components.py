@@ -9,20 +9,10 @@ from app.scripts.session_controller import (
     get_session,
     save_session,
 )
+from app.scripts.utils import find_stage_by_name
+from app.core.logger import logger
 
 router = APIRouter(prefix="/components", tags=["components"])
-
-
-def _online_form_stage_allowed(session: CreditSession, stage: str) -> bool:
-    if session.credit.global_stages.online_form.status == StageStatus.DONE:
-        return True
-
-    stage_status: StageStatus = session.credit.online_form_stages[stage].status
-
-    if stage_status == StageStatus.DONE or stage_status == StageStatus.PENDING:
-        return True
-
-    return False
 
 
 @router.get("/online_form_stages/{stage}", response_class=HTMLResponse)
@@ -31,18 +21,16 @@ async def get_online_form_stage(
     request: Request,
     session: CreditSession = Depends(get_session),
 ):
-    print(session.credit)
-    if not _online_form_stage_allowed(session, stage):
-        return HTMLResponse()
-
+    logger.info(session)
     session.current_stage = stage
     await save_session(request, session)
 
     response = render_template(
         request,
-        "stages/{}_stage.j2".format(stage),
+        "online_form_stages/{}_stage.j2".format(stage),
         {
             "request": request,
+            "stage": find_stage_by_name(session.credit.online_form_stages, stage),
             "credit": session.credit,
             "session": session,
         },

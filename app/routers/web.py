@@ -12,6 +12,7 @@ from app.scripts.session_controller import (
     session_cookie,
 )
 from app.test_data import credits
+from app.scripts.utils import find_credit_by_number
 
 router = APIRouter()
 
@@ -43,9 +44,7 @@ async def read_credit_request_detail(
     request: Request,
     session: CreditSession = Depends(get_session),
 ):
-    session.credit = Credit.model_validate(list(
-        filter(lambda x: x["number"] == credit_number, credits.credits)
-    )[0])
+    session.credit = find_credit_by_number(credits.credits, credit_number)
     session.frontend_variables.title = "Kreditantrag №" + str(credit_number)
     await save_session(request, session)
 
@@ -59,6 +58,7 @@ async def read_credit_request_detail(
         },
     )
     attach_session_to_response(response, request)
+    logger.info(response.headers)
     return response
 
 

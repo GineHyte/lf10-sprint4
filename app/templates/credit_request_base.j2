@@ -7,22 +7,43 @@
   <script type="module">
     import ApiController from "{{ url_for('static', path='js/apiController.js') }}";
 
+    const onlineFormElement = document.getElementById("online-form");
     const stageContentElement = document.getElementById("stage-content");
     const apiController = ApiController.getInstance();
     
     async function renderOnlineFormStage(stage) {
-      console.log("test")
-      const html = apiController.apiRenderOnlineFormStage(stage);
+      const html = await apiController.apiRenderOnlineFormStage(stage);
       stageContentElement.innerHTML = html;
+
+      stageContentElement.querySelectorAll("script").forEach(oldScript => {
+        const newScript = document.createElement('script');
+        if (oldScript.type) newScript.type = oldScript.type;
+
+        if (oldScript.src) {
+          newScript.src = oldScript.src;
+          document.head.appendChild(newScript);
+        } else {
+          newScript.textContent = oldScript.textContent;
+          stageContentElement.appendChild(newScript);
+        }
+        
+        oldScript.remove();
+      });
     }
-      console.log("test")
 
     new Promise(async () => await renderOnlineFormStage("credit_format"));
+
+    async function onOnlineFormSubmit(event) {
+      event.preventDefault();
+      
+    }
+
+    onlineFormElement.addEventListener("submit", onOnlineFormSubmit);
   </script>
 
   <div class="flex w-full h-[90vh] justify-center font-[IBMPlexSans]">
     <div class="flex w-4/5 bg-gray-100 h-[95%] mt-5 flex-col">
-      <div class="flex flex-col justify-between h-full">
+      <form class="flex flex-col justify-between h-full" id="online-form">
         <div class="flex flex-col">
           <div class="py-4 border-b-1 p-3 h-19 w-full flex flex-col gap-2">
             <span class="text-2xl font-light">Schritt {{session.current_step}}: <span class="font-medium">Kreditanfrage</span></span>
@@ -35,7 +56,7 @@
           {{ button("Zurück", "cancel") }}
           {{ button("Weiter", "submit") }}
         </div>
-      </div>
+      </form>
     </div>
   </div>
 {% endblock content %}

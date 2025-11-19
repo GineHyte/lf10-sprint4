@@ -1,7 +1,7 @@
 {% from 'components/status.j2' import global_status_bar, empty_status_bar, global_status_bar_with_text with context %}
 
 {%- macro credit_request_card(credit) -%}
-  <div class="relative bg-gray-100 w-full h-44 font-[IBMPlexSans] p-4 hover:bg-gray-200 cursor-{{ getCursorTwClassFromOnlineFormStatus(credit.global_stages.online_form.status) }}"
+  <div class="relative bg-gray-100 w-full h-44 font-[IBMPlexSans] p-4 hover:bg-gray-200 cursor-{{ getCursorTwClassFromCredit(credit) }}"
        role="region"
        id="credit-request-card-{{ credit.number }}">
     <p class="text-2xl mb-1">Kreditantrag № {{ credit.number }}</p>
@@ -17,7 +17,7 @@
         window.location = "/credit_request/{{ credit.number }}";
       }
 
-      if ("{{ getCursorTwClassFromOnlineFormStatus(credit.global_stages.online_form.status) }}" === "pointer") {
+      if ("{{ getCursorTwClassFromCredit(credit) }}" === "pointer") {
         let creditRequestCardElement = document.getElementById(`credit-request-card-{{ credit.number }}`)
         creditRequestCardElement.addEventListener("click", redirectToCreditRequestPage);
       }

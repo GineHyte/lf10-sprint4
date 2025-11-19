@@ -1,1 +1,10 @@
-<span>test</span>
+{% from 'components/inputs.j2' import text_input, radio_button, radio_button_with_info with context %}
+
+<div class="text-lg">
+  <p>Wählen Sie bitte das Kreditantragsformular aus.</p>
+
+  <div class="flex gap-5">
+    {{ radio_button_with_info("Sofortkredit", "Sofortkredit", "instant_credit", "credit_format")}}
+    {{ radio_button_with_info("Baudarlehen", "Baudarlehen", "construction_credit", "credit_format")}}
+  </div>
+</div>

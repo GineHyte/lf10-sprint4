@@ -36,7 +36,8 @@ export class ApiRequest {
     }
 
     set endpoint(endpoint) {
-        this.url = `http://localhost:8000/api/${endpoint}` // TODO: bruh
+        // use relative URL so requests stay same-origin and cookies are sent reliably
+        this.url = `/api/${endpoint}`;
     }
 
     async useAccessToken() {
@@ -88,9 +89,11 @@ export class ApiRequest {
 
         if (this.method === 'POST') {
             headers.Accept = 'application/json';
-            headers.ContentType = 'application/json';
+            headers['Content-Type'] = 'application/json';
         }
 
+        // ensure cookies (session cookie) are sent with requests
+        options.withCredentials = true;
         options.headers = headers;
         return options;
     }
