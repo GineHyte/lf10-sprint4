@@ -4,59 +4,89 @@
 {% from 'components/inputs.j2' import button with context %}
 
 {% block content %}
-  <script type="module">
-    import ApiController from "{{ url_for('static', path='js/apiController.js') }}";
+<script type="module">
+  import ApiController from "{{ url_for('static', path='js/apiController.js') }}";
 
-    const onlineFormElement = document.getElementById("online-form");
-    const stageContentElement = document.getElementById("stage-content");
-    const apiController = ApiController.getInstance();
-    
-    async function renderOnlineFormStage(stage) {
-      const html = await apiController.apiRenderOnlineFormStage(stage);
-      stageContentElement.innerHTML = html;
+  const onlineFormElement = document.getElementById("online-form");
+  const onlineFormCancelButtonElement = document.getElementById("online-form-cancel-button");
+  const stageContentElement = document.getElementById("stage-content");
+  const apiController = ApiController.getInstance();
+  let current_stage = "credit_format";
+  const STAGES = [
+    "credit_format",
+    "personal_data"
+  ]
 
-      stageContentElement.querySelectorAll("script").forEach(oldScript => {
-        const newScript = document.createElement('script');
-        if (oldScript.type) newScript.type = oldScript.type;
+  async function renderOnlineFormStage(stage) {
+    const html = await apiController.apiRenderOnlineFormStage(stage);
+    stageContentElement.innerHTML = html;
 
-        if (oldScript.src) {
-          newScript.src = oldScript.src;
-          document.head.appendChild(newScript);
-        } else {
-          newScript.textContent = oldScript.textContent;
-          stageContentElement.appendChild(newScript);
-        }
-        
-        oldScript.remove();
-      });
-    }
+    stageContentElement.querySelectorAll("script").forEach(oldScript => {
+      const newScript = document.createElement('script');
+      if (oldScript.type) newScript.type = oldScript.type;
 
-    new Promise(async () => await renderOnlineFormStage("credit_format"));
+      if (oldScript.src) {
+        newScript.src = oldScript.src;
+        document.head.appendChild(newScript);
+      } else {
+        newScript.textContent = oldScript.textContent;
+        stageContentElement.appendChild(newScript);
+      }
 
-    async function onOnlineFormSubmit(event) {
-      event.preventDefault();
-      
-    }
+      oldScript.remove();
+    });
+  }
 
-    onlineFormElement.addEventListener("submit", onOnlineFormSubmit);
-  </script>
+  function getNextStage(stage) {
+    const newStageIndex = STAGES.indexOf(stage) + 1;
+    if (newStageIndex > STAGES.length - 1) return "quit"
+    return STAGES[newStageIndex]
+  }
 
-  <div class="flex w-full h-[90vh] justify-center font-[IBMPlexSans]">
-    <div class="flex w-4/5 bg-gray-100 h-[95%] mt-5 flex-col">
-      <form class="flex flex-col justify-between h-full" id="online-form">
-        <div class="flex flex-col">
-          <div class="py-4 border-b-1 p-3 h-19 w-full flex flex-col gap-2">
-            <span class="text-2xl font-light">Schritt {{session.current_step}}: <span class="font-medium">Kreditanfrage</span></span>
-            {{ online_form_status_bar(credit.number, credit.online_form_stages) }} 
-          </div>
-          <div class="p-4" id="stage-content">
-          </div>
+  function getPreviousStage(stage) {
+    const newStageIndex = STAGES.indexOf(stage) - 1;
+    if (newStageIndex < 0) return "quit"
+    return STAGES[newStageIndex]
+  }
+
+
+  new Promise(async () => await renderOnlineFormStage(current_stage));
+
+  async function onOnlineFormSubmit(event) {
+    event.preventDefault();
+    const nextStage = getNextStage(current_stage);
+    await renderOnlineFormStage(nextStage)
+    current_stage = nextStage;
+  }
+
+  async function onBackButtonPress(event) {
+    const previousStage = getPreviousStage(current_stage);
+    if (previousStage === "quit") window.location = "/";
+    await renderOnlineFormStage(previousStage)
+    current_stage = previousStage;
+  }
+
+  onlineFormElement.addEventListener("submit", onOnlineFormSubmit);
+  onlineFormCancelButtonElement.addEventListener("click", onBackButtonPress);
+</script>
+
+<div class="flex w-full h-[90vh] justify-center font-[IBMPlexSans]">
+  <div class="flex w-4/5 bg-gray-100 h-[95%] mt-5 flex-col">
+    <form class="flex flex-col justify-between h-full" id="online-form">
+      <div class="flex flex-col">
+        <div class="py-4 border-b-1 p-3 h-19 w-full flex flex-col gap-2">
+          <span class="text-2xl font-light">Schritt {{session.current_step}}: <span
+              class="font-medium">Kreditanfrage</span></span>
+          {{ online_form_status_bar(credit.number, credit.online_form_stages) }}
         </div>
-        <div class="flex justify-between w-full">
-          {{ button("Zurück", "cancel") }}
-          {{ button("Weiter", "submit") }}
+        <div class="p-4" id="stage-content">
         </div>
-      </form>
-    </div>
+      </div>
+      <div class="flex justify-between w-full">
+        {{ button("Zurück", "cancel", "online-form-cancel-button") }}
+        {{ button("Weiter", "submit") }}
+      </div>
+    </form>
   </div>
+</div>
 {% endblock content %}
