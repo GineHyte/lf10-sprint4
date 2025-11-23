@@ -73,3 +73,12 @@
   class="{{getTwClassesFromInputType(type)}} {{getTwSizeClassButton(size)}} font-[IBMPlexSans] font-light text-3xl cursor-pointer {{getTwHoverClassesFromInputType(type)}}"
   value="{{title}}" />
 {%- endmacro -%}
+
+
+{%- macro date_picker(title, id, size="md") -%}
+<div class="flex flex-col font-[IBMPlexSans] {{ getTwSizeClassInputField(size) }} ">
+  <label class="text-md text-gray-600" for="{{id}}">{{title}}</label>
+
+  <input class="rounded-none p-2 border-b-1 bg-white" type="date" id="{{id}}" name="id" />
+</div>
+{%- endmacro -%}

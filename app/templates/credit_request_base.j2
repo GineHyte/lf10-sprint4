@@ -11,7 +11,8 @@
   const onlineFormCancelButtonElement = document.getElementById("online-form-cancel-button");
   const stageContentElement = document.getElementById("stage-content");
   const apiController = ApiController.getInstance();
-  let current_stage = "credit_format";
+  let current_stage = "{{session.current_stage}}";
+
   const STAGES = [
     "credit_format",
     "personal_data"

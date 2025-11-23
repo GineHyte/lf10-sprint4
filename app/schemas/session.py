@@ -10,6 +10,7 @@ class FrontendVariables(BaseModel):
 
 
 class CreditSession(BaseModel):
-    current_stage: str = ""
+    current_stage: str = "credit_format"
     credit: Optional[Credit] = None
     frontend_variables: FrontendVariables = FrontendVariables()
+ 

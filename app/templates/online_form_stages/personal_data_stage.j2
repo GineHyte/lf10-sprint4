@@ -1,7 +1,9 @@
-{% from 'components/inputs.j2' import text_input, radio_button, radio_button_with_info with context %}
+{% from 'components/inputs.j2' import text_input, radio_button, radio_button_with_info, date_picker with context %}
 
 <div class="text-lg">
   <div class="flex gap-5">
     {{ text_input("Vorname", "Max", "first_name") }}
+    {{ text_input("Nachname", "Verstappen", "first_name") }}
+    {{ date_picker("Geburtsdatum", "birthday") }}
   </div>
 </div>

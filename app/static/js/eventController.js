@@ -61,13 +61,6 @@ class EventController {
         return await this.#sendMessage(type, payload, wait_for_response);
     }
 
-    /**
-     * Send a message via WebSocket
-     * @param {number} type - Message type
-     * @param {object} payload - Message payload
-     * @param {boolean} wait_for_response - Whether to wait for backend confirmation
-     * @returns {Promise<void>} Resolves when message is sent (or confirmed if waiting)
-     */
     #sendMessage(type, payload = undefined, wait_for_response = false) {
         if (!wait_for_response) {
             return new Promise((resolve, reject) => {
@@ -110,11 +103,6 @@ class EventController {
         });
     }
 
-    /**
-     * Internal helper to send message to WebSocket
-     * @param {string} message - JSON stringified message
-     * @param {function} callback - Callback(error) to handle send result
-     */
     #sendToWebSocket(message, callback) {
         if (this.webSocketClient.readyState === WebSocket.OPEN) {
             try {
