@@ -1,8 +1,8 @@
-{% extends "components/dataProvider.j2" %}
+{% extends "online_form_stages/data_provider_with_header.j2" %}
 
 {% from 'components/inputs.j2' import number_input, dropdown with context %}
 
-{% block content %}
+{% block form %}
   <div class="text-lg">
     <div class="grid grid-cols-4 gap-y-10">
       {{ number_input("Wohnhaft seit (in Monaten)", "12", "resident_since_months") }}
@@ -16,4 +16,4 @@
       {{ number_input("Anzahl unterhaltspflichtiger Kinder", "0", "dependent_children") }}
     </div>
   </div>
-{% endblock content %}
+{% endblock form %}

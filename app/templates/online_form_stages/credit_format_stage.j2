@@ -1,10 +1,8 @@
-{% extends "components/dataProvider.j2" %}
+{% extends "online_form_stages/data_provider_with_header.j2" %}
 
 {% from 'components/inputs.j2' import text_input, radio_button, radio_button_with_info with context %}
-{% from 'credit_request_base.j2' import credit_request_header with context %}
 
-{% block content %}
-  {{ credit_request_header(stage.title) }}
+{% block form %}
   <div class="text-lg">
     <p>Wählen Sie bitte das Kreditantragsformular aus.</p>
 
@@ -13,4 +11,4 @@
       {{ radio_button_with_info("Baudarlehen", "Langfristiges Darlehen zur Finanzierung von Bau, Kauf oder Modernisierung von Immobilien. In der Regel längere Laufzeiten und günstigere Zinsen als Konsumentenkredite; meist ist eine Absicherung über Grundschuld/Grundbucheintrag erforderlich. Auszahlung kann gestaffelt nach Baufortschritt erfolgen (Teilzahlungen), zusätzlich können Notar‑ und Grundbuchkosten anfallen. Tilgungsplan, Sondertilgungsmöglichkeiten und mögliche staatliche Förderungen prüfen.", "construction_credit", "credit_format")}}
     </div>
   </div>
-{% endblock content %}
+{% endblock form %}

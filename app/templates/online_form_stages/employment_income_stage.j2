@@ -1,8 +1,8 @@
-{% extends "components/dataProvider.j2" %}
+{% extends "online_form_stages/data_provider_with_header.j2" %}
 
 {% from 'components/inputs.j2' import text_input, number_input, radio_button with context %}
 
-{% block content %}
+{% block form %}
   <div class="text-lg">
     <div class="grid grid-cols-4 gap-y-10">
       {{ text_input("Heutiger Beruf bzw. in Anstellung als", "Software Entwickler", "current_profession", "lg") }}
@@ -43,4 +43,4 @@
       </div>
     </div>
   </div>
-{% endblock content %}
+{% endblock form %}

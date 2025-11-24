@@ -1,10 +1,8 @@
-{% extends "components/dataProvider.j2" %}
+{% extends "online_form_stages/data_provider_with_header.j2" %}
 
 {% from 'components/inputs.j2' import number_input, radio_button, big_text_input with context %}
-{% from 'credit_request_base.j2' import credit_request_header with context %}
 
-{% block content %}
-  {{ credit_request_header(stage.title) }}
+{% block form %}
   <div class="text-lg">
     <div class="grid grid-cols-4 gap-y-10">
       {{ number_input("Gewünschter Kreditbetrag", "10000", "desired_credit_amount") }}
@@ -31,4 +29,4 @@
       {{ big_text_input("Offene Betreibungen / Pfändungen - Welche (wenn ja)", "Bitte geben Sie Details zu offenen Betreibungen oder Pfändungen an...", "outstanding_debts_details", "6", "lg") }}
     </div>
   </div>
-{% endblock content %}
+{% endblock form %}

@@ -1,0 +1,18 @@
+{% extends "components/data_provider.j2" %}
+
+{% from 'components/status.j2' import online_form_status_bar with context %}
+
+{% block content %}
+  <div class="flex flex-col">
+    <div class="py-4 border-b-1 p-3 h-19 w-full flex flex-col gap-2">
+      <div class="flex gap-1">
+        <span id="credit-request-header" class="text-2xl font-light"></span>
+        <span class="text-2xl font-medium">{{stage.title}}</span>
+      </div>
+      {{ online_form_status_bar(credit.number, credit.online_form_stages) }}
+    </div>
+    <div class="p-4">
+      {% block form %}{% endblock form %}
+    </div>
+  </div>
+{% endblock content %}

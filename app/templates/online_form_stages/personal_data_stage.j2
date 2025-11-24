@@ -1,8 +1,8 @@
-{% extends "components/dataProvider.j2" %}
+{% extends "online_form_stages/data_provider_with_header.j2" %}
 
 {% from 'components/inputs.j2' import text_input, radio_button, radio_button_, date_picker with context %}
 
-{% block content %}
+{% block form %}
   <div class="text-lg">
     <div class="mb-4">
       <p>Anrede</p>
@@ -27,4 +27,4 @@
       {{ text_input("Email", "max.verstappen@example.com", "email", "lg") }}
     </div>
   </div>
-{% endblock content %}
+{% endblock form %}
