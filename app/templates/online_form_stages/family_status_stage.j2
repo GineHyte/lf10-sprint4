@@ -1,0 +1,19 @@
+{% extends "components/dataProvider.j2" %}
+
+{% from 'components/inputs.j2' import number_input, dropdown with context %}
+
+{% block content %}
+  <div class="text-lg">
+    <div class="grid grid-cols-4 gap-y-10">
+      {{ number_input("Wohnhaft seit (in Monaten)", "12", "resident_since_months") }}
+      
+      {{ dropdown("Zivilstand", [
+        {"value": "ledig", "label": "Ledig"},
+        {"value": "verheiratet", "label": "Verheiratet"},
+        {"value": "geschieden", "label": "Geschieden"}
+      ], "marital_status") }}
+      
+      {{ number_input("Anzahl unterhaltspflichtiger Kinder", "0", "dependent_children") }}
+    </div>
+  </div>
+{% endblock content %}

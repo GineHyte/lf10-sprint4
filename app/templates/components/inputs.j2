@@ -4,52 +4,60 @@
   <input class="rounded-none p-2 border-b-1 bg-white" id="text-input-{{stage.id}}-{{for}}" type="text" name="{{for}}"
     placeholder="{{placeholder}}" />
 </div>
-<script type="module">
-  const textInputelement = document.getElementById("text-input-{{stage.id}}-{{for}}");
-
-</script>
 {%- endmacro -%}
 
 {% macro radio_button(title, for, name, size="md") %}
-<div class="inline-flex items-center">
+<div class="inline-flex items-center" id="radio-button-{{stage.id}}-{{name}}-{{for}}-container">
   <label class="relative flex items-center cursor-pointer" for="{{for}}">
     <input name="{{name}}" type="radio"
       class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-black transition-all"
-      id="radio-button-{{stage.id}}-{{for}}">
+      id="radio-button-{{stage.id}}-{{name}}-{{for}}">
     <span
       class="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
     </span>
   </label>
   <label class="ml-2 font-[IBMPlexSans] cursor-pointer text-lg" for="{{for}}">{{ title }}</label>
 </div>
+<script>
+    (() => {
+      let inputElement = document.getElementById("radio-button-{{stage.id}}-{{name}}-{{for}}");
+      if (!inputElement) return
+      let greatParentElement = document.getElementById("radio-button-{{stage.id}}-{{name}}-{{for}}-container");
+      if (!greatParentElement) return
+
+      greatParentElement.addEventListener("click", () => {
+        inputElement.click()
+      })
+    })()
+  </script>
 {%- endmacro -%}
 
 {% macro radio_button_with_info(title, info_text, for, name, size="md") %}
-<div class="inline-flex items-center relative" id="radio-button-{{stage.id}}-{{for}}-container">
+<div class="inline-flex items-center relative" id="radio-button-{{stage.id}}-{{name}}-{{for}}-container">
   <label class="relative flex items-center cursor-pointer" for="{{for}}">
     <input name="{{name}}" type="radio"
       class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-black transition-all"
-      id="radio-button-{{stage.id}}-{{for}}">
+      id="radio-button-{{stage.id}}-{{name}}-{{for}}">
     <span
       class="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
     </span>
   </label>
   <label class="ml-2 font-[IBMPlexSans] cursor-pointer text-lg" for="{{for}}">{{ title }}</label>
-  <img id="radio-button-{{stage.id}}-{{for}}-info-parent" class="ml-2 size-4 cursor-help" height="100%" width="100%"
+  <img id="radio-button-{{stage.id}}-{{name}}-{{for}}-info-parent" class="ml-2 size-4 cursor-help" height="100%" width="100%"
     alt="menu" src="{{ url_for('static', path='images/info.svg') }}" />
-  <div id="radio-button-{{stage.id}}-{{for}}-info-box"
+  <div id="radio-button-{{stage.id}}-{{name}}-{{for}}-info-box"
     class="hidden absolute h-auto w-50 top-7 bg-gray-900 rounded-xl p-2 text-center">
     <span class="font-[IBMPlexSans] text-white text-sm">{{ info_text }}</span>
   </div>
   <script>
     (() => {
-      let inputElement = document.getElementById("radio-button-{{stage.id}}-{{for}}");
+      let inputElement = document.getElementById("radio-button-{{stage.id}}-{{name}}-{{for}}");
       if (!inputElement) return
-      let greatParentElement = document.getElementById("radio-button-{{stage.id}}-{{for}}-container");
+      let greatParentElement = document.getElementById("radio-button-{{stage.id}}-{{name}}-{{for}}-container");
       if (!greatParentElement) return
-      let parentElement = document.getElementById("radio-button-{{stage.id}}-{{for}}-info-parent");
+      let parentElement = document.getElementById("radio-button-{{stage.id}}-{{name}}-{{for}}-info-parent");
       if (!parentElement) return
-      let infoBoxElement = document.getElementById("radio-button-{{stage.id}}-{{for}}-info-box");
+      let infoBoxElement = document.getElementById("radio-button-{{stage.id}}-{{name}}-{{for}}-info-box");
       if (!infoBoxElement) return
 
       greatParentElement.addEventListener("click", () => {
@@ -79,6 +87,33 @@
 <div class="flex flex-col font-[IBMPlexSans] {{ getTwSizeClassInputField(size) }} ">
   <label class="text-md text-gray-600" for="{{id}}">{{title}}</label>
 
-  <input class="rounded-none p-2 border-b-1 bg-white" type="date" id="{{id}}" name="id" />
+  <input class="rounded-none p-2 border-b-1 bg-white" type="date" id="date-picker-{{stage.id}}-{{id}}" name="id" />
+</div>
+{%- endmacro -%}
+
+{% macro dropdown(title, options, for, size="md") %}
+<div class="flex flex-col font-[IBMPlexSans] {{ getTwSizeClassInputField(size) }}">
+  <label for="{{for}}" class="text-md text-gray-600">{{ title }}</label>
+  <select class="rounded-none p-2 border-b-1 bg-white cursor-pointer" id="dropdown-{{stage.id}}-{{for}}" name="{{for}}">
+    {% for option in options %}
+    <option value="{{ option.value }}">{{ option.label }}</option>
+    {% endfor %}
+  </select>
+</div>
+{%- endmacro -%}
+
+{% macro number_input(title, placeholder, for, size="md") %}
+<div class="flex flex-col font-[IBMPlexSans] {{ getTwSizeClassInputField(size) }}">
+  <label for="{{for}}" class="text-md text-gray-600">{{ title }}</label>
+  <input class="rounded-none p-2 border-b-1 bg-white" id="number-input-{{stage.id}}-{{for}}" type="number" name="{{for}}"
+    placeholder="{{placeholder}}" />
+</div>
+{%- endmacro -%}
+
+{% macro big_text_input(title, placeholder, for, rows="4", size="lg") %}
+<div class="flex flex-col font-[IBMPlexSans] {{ getTwSizeClassInputField(size) }}">
+  <label for="{{for}}" class="text-md text-gray-600">{{ title }}</label>
+  <textarea class="rounded-none p-2 border-1 bg-white resize-vertical" id="textarea-{{stage.id}}-{{for}}" name="{{for}}"
+    placeholder="{{placeholder}}" rows="{{rows}}"></textarea>
 </div>
 {%- endmacro -%}

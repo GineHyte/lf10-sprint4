@@ -5,11 +5,7 @@ from app.core.logger import logger
 from app.schemas.events import Event
 from app.schemas.session import CreditSession
 from app.scripts.event_controller import process_json_event
-from app.scripts.session_controller import (
-    attach_session_to_response,
-    get_session_ws,
-    save_session,
-)
+from app.scripts.session_controller import get_session_ws, save_session
 
 router = APIRouter()
 

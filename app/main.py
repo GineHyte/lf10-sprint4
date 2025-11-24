@@ -2,10 +2,25 @@ from fastapi import APIRouter, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.routers import components, events, web
 
+
+class SessionMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+        from app.scripts.session_controller import attach_session_to_response
+
+        try:
+            attach_session_to_response(response, request)
+        except:
+            pass  # No session to attach
+        return response
+
+
 app = FastAPI()
+app.add_middleware(SessionMiddleware)
 
 app.add_middleware(
     CORSMiddleware,

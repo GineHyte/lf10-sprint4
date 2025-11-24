@@ -1,0 +1,34 @@
+{% extends "components/dataProvider.j2" %}
+
+{% from 'components/inputs.j2' import number_input, radio_button, big_text_input with context %}
+{% from 'credit_request_base.j2' import credit_request_header with context %}
+
+{% block content %}
+  {{ credit_request_header(stage.title) }}
+  <div class="text-lg">
+    <div class="grid grid-cols-4 gap-y-10">
+      {{ number_input("Gewünschter Kreditbetrag", "10000", "desired_credit_amount") }}
+      {{ number_input("Kreditlaufzeit (in Monaten)", "36", "credit_duration_months") }}
+    </div>
+
+    <div class="mt-8">
+      <p class="mb-2">Interesse an Versicherungsschutz</p>
+      <div class="flex gap-5">
+        {{ radio_button("Ja", "yes", "insurance_interest") }}
+        {{ radio_button("Nein", "no", "insurance_interest") }}
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <p class="mb-2">Offene Betreibungen / Pfändungen</p>
+      <div class="flex gap-5">
+        {{ radio_button("Ja", "yes", "outstanding_debts") }}
+        {{ radio_button("Nein", "no", "outstanding_debts") }}
+      </div>
+    </div>
+
+    <div class="mt-8">
+      {{ big_text_input("Offene Betreibungen / Pfändungen - Welche (wenn ja)", "Bitte geben Sie Details zu offenen Betreibungen oder Pfändungen an...", "outstanding_debts_details", "6", "lg") }}
+    </div>
+  </div>
+{% endblock content %}

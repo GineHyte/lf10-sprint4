@@ -61,6 +61,13 @@ class EventController {
         return await this.#sendMessage(type, payload, wait_for_response);
     }
 
+    async setCreditSessioVariable(key, value, wait_for_response = false) {
+        const type = 1;
+        const payload = { key, value };
+
+        return await this.#sendMessage(type, payload, wait_for_response);
+    }
+
     #sendMessage(type, payload = undefined, wait_for_response = false) {
         if (!wait_for_response) {
             return new Promise((resolve, reject) => {

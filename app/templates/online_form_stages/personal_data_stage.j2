@@ -1,9 +1,30 @@
-{% from 'components/inputs.j2' import text_input, radio_button, radio_button_with_info, date_picker with context %}
+{% extends "components/dataProvider.j2" %}
 
-<div class="text-lg">
-  <div class="flex gap-5">
-    {{ text_input("Vorname", "Max", "first_name") }}
-    {{ text_input("Nachname", "Verstappen", "first_name") }}
-    {{ date_picker("Geburtsdatum", "birthday") }}
+{% from 'components/inputs.j2' import text_input, radio_button, radio_button_, date_picker with context %}
+
+{% block content %}
+  <div class="text-lg">
+    <div class="mb-4">
+      <p>Anrede</p>
+      <div class="flex gap-5">
+        {{ radio_button("Frau", "female", "sex") }}
+        {{ radio_button("Herr", "male", "sex") }}
+      </div>
+    </div>
+    <div class="grid grid-cols-4 gap-y-10">
+      {{ text_input("Vorname", "Max", "first_name") }}
+      {{ text_input("Nachname", "Verstappen", "last_name") }}
+      {{ date_picker("Geburtsdatum", "birthday") }}
+      {{ text_input("Heimatort", "Deutschland", "homeland") }}
+
+      {{ text_input("Straße", "Lasvegasstraße", "street") }}
+      {{ text_input("Haus Nr.", "3", "house_number") }}
+      {{ text_input("PLZ", "12345", "zip") }}
+      {{ text_input("Ort", "Las Vegas", "city") }}
+
+      {{ text_input("Telefon", "(67676) 67676-7", "business_phone") }}
+      {{ text_input("Telefon Privat", "+49 676767676767", "private_phone") }}
+      {{ text_input("Email", "max.verstappen@example.com", "email", "lg") }}
+    </div>
   </div>
-</div>
+{% endblock content %}

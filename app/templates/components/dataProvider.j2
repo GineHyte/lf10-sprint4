@@ -1,0 +1,52 @@
+<script>
+  (() => {
+    console.assert("{{stage.id}}" !== "", "asume that stage object exists (jinja2)");
+    let initData;
+
+    try {
+      initData = JSON.parse("{{stage.data | safe}}".replaceAll("'","\""));
+    } catch { 
+      console.log("no init data");
+      return; 
+    }
+    
+    function applyValueOnTextInputElement(fieldType, key, value) {
+      const element = document.getElementById(`${fieldType}-{{stage.id}}-${key}`);
+      console.log(`${fieldType}-{{stage.id}}-${key}`)
+      element.value = value;
+    }
+    
+    function applyValueOnDatePickerElement(fieldType, key, value) {
+      const element = document.getElementById(`${fieldType}-{{stage.id}}-${key}`);
+      const date = new Date(value);
+      element.value = date.toISOString().split('T')[0];
+    }
+    
+    function applyValueOnRadioButtonElement(fieldType, key, value) {
+      const element = document.getElementById(`${fieldType}-{{stage.id}}-${key}-${value}`);
+      element.checked = true;
+    }
+    
+    function applyValueOnElement([key, value]) {
+      const fieldType = getFieldType(key);
+      console.log(fieldType, key, value)
+    
+      switch (fieldType) {
+        case "text-input": 
+          applyValueOnTextInputElement(fieldType, key, value);
+          break;
+        case "date-picker":
+          applyValueOnDatePickerElement(fieldType, key, value);
+          break;
+        case "radio-button":
+          applyValueOnRadioButtonElement(fieldType, key, value);
+          break;
+      }
+    }
+
+    console.log(initData);
+    Object.entries(initData).forEach(applyValueOnElement)
+  })();
+</script>
+
+{% block content %}{% endblock content %}

@@ -1,6 +1,5 @@
 from fastapi import WebSocket
 
-from app.core.templates import templates
 from app.schemas.events import *
 from app.schemas.session import CreditSession
 
@@ -8,7 +7,9 @@ event: Event  # static
 session: CreditSession  # static
 
 
-def process_json_event(prop_websocket: WebSocket, prop_event: Event, prop_session: CreditSession) -> bool:
+def process_json_event(
+    prop_websocket: WebSocket, prop_event: Event, prop_session: CreditSession
+) -> bool:
     """If returns false -> close the connection"""
     global event, session, websocket
 

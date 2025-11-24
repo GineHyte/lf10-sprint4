@@ -5,14 +5,9 @@ from app.core.logger import logger
 from app.core.templates import render_template
 from app.schemas.credit import Credit
 from app.schemas.session import CreditSession
-from app.scripts.session_controller import (
-    attach_session_to_response,
-    get_session,
-    save_session,
-    session_cookie,
-)
-from app.test_data import credits
+from app.scripts.session_controller import get_session, save_session
 from app.scripts.utils import find_credit_by_number
+from app.test_data import credits
 
 router = APIRouter()
 
@@ -34,18 +29,19 @@ async def read_index(
             "session": session,
         },
     )
-    attach_session_to_response(response, request)
     return response
 
 
 @router.get("/credit_request/{credit_number}", response_class=HTMLResponse)
-async def read_credit_request_detail(
+async def read_credit_request(
     credit_number: int,
     request: Request,
     session: CreditSession = Depends(get_session),
 ):
     session.credit = find_credit_by_number(credits.credits, credit_number)
     session.frontend_variables.title = "Kreditantrag №" + str(credit_number)
+    if session.current_stage == "quit":
+        session.current_stage = "credit_format"
     await save_session(request, session)
 
     response = render_template(
@@ -57,7 +53,6 @@ async def read_credit_request_detail(
             "session": session,
         },
     )
-    attach_session_to_response(response, request)
     logger.info(response.headers)
     return response
 
@@ -76,5 +71,4 @@ async def read_credit_request_new(
         "credit_request_base.j2",
         {"request": request, "session": session},
     )
-    attach_session_to_response(response, request)
     return response

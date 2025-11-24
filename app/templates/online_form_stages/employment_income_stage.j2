@@ -1,0 +1,46 @@
+{% extends "components/dataProvider.j2" %}
+
+{% from 'components/inputs.j2' import text_input, number_input, radio_button with context %}
+
+{% block content %}
+  <div class="text-lg">
+    <div class="grid grid-cols-4 gap-y-10">
+      {{ text_input("Heutiger Beruf bzw. in Anstellung als", "Software Entwickler", "current_profession", "lg") }}
+      {{ number_input("An dieser Stelle seit (in Monaten)", "24", "employed_since_months") }}
+    </div>
+
+    <div class="mt-8 mb-4">
+      <h3 class="text-xl font-semibold mb-4">Hauptverdienst</h3>
+      <div class="grid grid-cols-4 gap-y-10">
+        {{ text_input("Arbeitsgeber", "Firma GmbH", "main_employer") }}
+        {{ number_input("PLZ", "12345", "main_employer_zip") }}
+        {{ text_input("Ort", "Berlin", "main_employer_city") }}
+        {{ number_input("Nettolohn", "3500", "main_net_salary") }}
+      </div>
+      <div class="mt-6">
+        <p class="mb-2">13. Lohn</p>
+        <div class="flex gap-5">
+          {{ radio_button("Ja", "yes", "main_13th_salary") }}
+          {{ radio_button("Nein", "no", "main_13th_salary") }}
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 mb-4">
+      <h3 class="text-xl font-semibold mb-4">Nebenverdienst</h3>
+      <div class="grid grid-cols-4 gap-y-10">
+        {{ text_input("Arbeitsgeber", "Nebenjob GmbH", "secondary_employer") }}
+        {{ number_input("PLZ", "12345", "secondary_employer_zip") }}
+        {{ text_input("Ort", "Berlin", "secondary_employer_city") }}
+        {{ number_input("Nettolohn", "800", "secondary_net_salary") }}
+      </div>
+      <div class="mt-6">
+        <p class="mb-2">13. Lohn</p>
+        <div class="flex gap-5">
+          {{ radio_button("Ja", "yes", "secondary_13th_salary") }}
+          {{ radio_button("Nein", "no", "secondary_13th_salary") }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

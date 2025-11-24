@@ -1,10 +1,16 @@
+{% extends "components/dataProvider.j2" %}
+
 {% from 'components/inputs.j2' import text_input, radio_button, radio_button_with_info with context %}
+{% from 'credit_request_base.j2' import credit_request_header with context %}
 
-<div class="text-lg">
-  <p>Wählen Sie bitte das Kreditantragsformular aus.</p>
+{% block content %}
+  {{ credit_request_header(stage.title) }}
+  <div class="text-lg">
+    <p>Wählen Sie bitte das Kreditantragsformular aus.</p>
 
-  <div class="flex gap-5">
-    {{ radio_button_with_info("Sofortkredit", "Sofortkredit", "instant_credit", "credit_format")}}
-    {{ radio_button_with_info("Baudarlehen", "Baudarlehen", "construction_credit", "credit_format")}}
+    <div class="flex gap-5">
+      {{ radio_button_with_info("Sofortkredit", "Schnelle Auszahlung und kurze Laufzeiten - geeignet für kleinere Anschaffungen oder akute Zahlungen. In der Regel höhere Zinsen und mögliche Gebühren; bitte Angebote vergleichen und Rückzahlungsrate prüfen.", "instant_credit", "credit_format")}}
+      {{ radio_button_with_info("Baudarlehen", "Langfristiges Darlehen zur Finanzierung von Bau, Kauf oder Modernisierung von Immobilien. In der Regel längere Laufzeiten und günstigere Zinsen als Konsumentenkredite; meist ist eine Absicherung über Grundschuld/Grundbucheintrag erforderlich. Auszahlung kann gestaffelt nach Baufortschritt erfolgen (Teilzahlungen), zusätzlich können Notar‑ und Grundbuchkosten anfallen. Tilgungsplan, Sondertilgungsmöglichkeiten und mögliche staatliche Förderungen prüfen.", "construction_credit", "credit_format")}}
+    </div>
   </div>
-</div>
+{% endblock content %}

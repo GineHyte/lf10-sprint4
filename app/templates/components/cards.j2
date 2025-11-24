@@ -12,15 +12,14 @@
   </div>
   <script type="module">
     import EventController from "{{ url_for('static', path='js/eventController.js') }}"
-    {
-      async function redirectToCreditRequestPage() {
-        window.location = "/credit_request/{{ credit.number }}";
-      }
 
-      if ("{{ getCursorTwClassFromCredit(credit) }}" === "pointer") {
-        let creditRequestCardElement = document.getElementById(`credit-request-card-{{ credit.number }}`)
-        creditRequestCardElement.addEventListener("click", redirectToCreditRequestPage);
-      }
+    async function redirectToCreditRequestPage() {
+      window.location = "/credit_request/{{ credit.number }}";
+    }
+
+    if ("{{ getCursorTwClassFromCredit(credit) }}" === "pointer") {
+      let creditRequestCardElement = document.getElementById(`credit-request-card-{{ credit.number }}`)
+      creditRequestCardElement.addEventListener("click", redirectToCreditRequestPage);
     }
   </script>
 {%- endmacro -%}

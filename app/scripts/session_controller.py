@@ -56,39 +56,48 @@ async def get_session(
             await _session_backend.create(session_identifier, session)
 
     _store_session_identifier(request, session_identifier)
-    session_cookie.attach_to_response(response, session_identifier)
 
     return session
 
 
 async def get_session_ws(websocket: WebSocket) -> CreditSession:
     """Get or create a session for WebSocket connections."""
-    session_reference = None
+    session_identifier = None
     cookie_name = settings.session_cookie_name
 
     if cookie_name in websocket.cookies:
         cookie_value = websocket.cookies[cookie_name]
         try:
-            session_reference = session_cookie.verifier.verify_session(cookie_value)
-        except Exception:
-            session_reference = None
+            # Use the session_cookie's signer to load and verify the session ID
+            session_identifier = session_cookie.signer.loads(
+                cookie_value, max_age=cookie_parameters.max_age
+            )
 
-    new_session_needed = session_reference is None or isinstance(
-        session_reference, FrontendError
-    )
+            if isinstance(session_identifier, (str, UUID)):
+                # Convert string to UUID if needed
+                if isinstance(session_identifier, str):
+                    session_identifier = UUID(session_identifier.strip('"'))
+
+                # Try to read existing session from backend
+                session = await _session_backend.read(session_identifier)
+                if session is not None:
+                    print(f"websocket session {cookie_value}")
+                    _store_session_identifier(websocket, session_identifier)
+                    return session
+        except Exception as e:
+            print(f"WebSocket session verification failed: {e}")
+            session_identifier = None
+
+    # If we reach here, create a new session
+    new_session_needed = session_identifier is None
 
     if new_session_needed:
         session_identifier = uuid4()
         session = CreditSession()
         await _session_backend.create(session_identifier, session)
-    else:
-        session_identifier = cast(UUID, session_reference)
-        session = await _session_backend.read(session_identifier)
-        if session is None:
-            session = CreditSession()
-            await _session_backend.create(session_identifier, session)
 
     _store_session_identifier(websocket, session_identifier)
+    print(f"websocket session {session_identifier} (new: {new_session_needed})")
 
     return session
 
