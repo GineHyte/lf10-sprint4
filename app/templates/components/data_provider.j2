@@ -41,6 +41,9 @@
         case "radio-button":
           applyValueOnRadioButtonElement(fieldType, key, value);
           break;
+        default:
+          applyValueOnTextInputElement(fieldType, key, value);
+          break;
       }
     }
 

@@ -4,7 +4,7 @@
 
 {% block form %}
   <div class="text-lg">
-    <div class="grid grid-cols-4 gap-y-10">
+    <div class="grid grid-cols-2 w-1/2 gap-y-10">
       {{ number_input("Wohnhaft seit (in Monaten)", "12", "resident_since_months") }}
       
       {{ dropdown("Zivilstand", [
@@ -13,7 +13,7 @@
         {"value": "geschieden", "label": "Geschieden"}
       ], "marital_status") }}
       
-      {{ number_input("Anzahl unterhaltspflichtiger Kinder", "0", "dependent_children") }}
+      {{ number_input("Anzahl Kinder", "0", "dependent_children") }}
     </div>
   </div>
 {% endblock form %}

@@ -1,6 +1,6 @@
 {% extends "online_form_stages/data_provider_with_header.j2" %}
 
-{% from 'components/inputs.j2' import text_input, radio_button, radio_button_, date_picker with context %}
+{% from 'components/inputs.j2' import text_input, radio_button, number_input, date_picker with context %}
 
 {% block form %}
   <div class="text-lg">
@@ -19,7 +19,7 @@
 
       {{ text_input("Straße", "Lasvegasstraße", "street") }}
       {{ text_input("Haus Nr.", "3", "house_number") }}
-      {{ text_input("PLZ", "12345", "zip") }}
+      {{ number_input("PLZ", "12345", "zip") }}
       {{ text_input("Ort", "Las Vegas", "city") }}
 
       {{ text_input("Telefon", "(67676) 67676-7", "business_phone") }}

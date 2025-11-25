@@ -56,7 +56,7 @@ def get_tw_hover_classes_from_input_type(type: str) -> str:
 def get_tw_size_class_button(size: str) -> str:
     match size:
         case "lg":
-            return "h-60 w-120"  # TODO: no usages -> need to be corrected
+            return "h-60 w-120" 
         case "md":
             return "h-20 w-70"
         case "sm":
@@ -65,6 +65,8 @@ def get_tw_size_class_button(size: str) -> str:
 
 def get_tw_size_class_input_field(size: str) -> str:
     match size:
+        case "2xl":
+            return "w-152" 
         case "lg":
             return "w-120"  # TODO: no usages -> need to be corrected
         case "md":

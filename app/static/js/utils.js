@@ -5,15 +5,35 @@ const FIELD_TYPES = {
     "last_name": "text-input",
     "street": "text-input",
     "house_number": "text-input",
-    "zip": "text-input",
+    "zip": "number-input",
     "city": "text-input",
     "business_phone": "text-input",
     "private_phone": "text-input",
+    "personal_phone": "text-input",
     "email": "text-input",
     "birthday": "date-picker",
-    "homeland": "text-input"
-}
-
+    "homeland": "text-input",
+    "resident_since_months": "number-input",
+    "marital_status": "radio-button",
+    "dependent_children": "number-input",
+    "current_profession": "text-input",
+    "employed_since_months": "number-input",
+    "main_employer": "text-input",
+    "main_employer_zip": "number-input",
+    "main_employer_city": "text-input",
+    "main_net_salary": "number-input",
+    "main_13th_salary": "radio-button",
+    "secondary_employer": "text-input",
+    "secondary_employer_zip": "number-input",
+    "secondary_employer_city": "text-input",
+    "secondary_net_salary": "number-input",
+    "secondary_13th_salary": "radio-button",
+    "desired_credit_amount": "number-input",
+    "credit_duration_months": "number-input",
+    "insurance_interest": "radio-button",
+    "outstanding_debts": "radio-button",
+    "outstanding_debts_details": "text-input",
+};
 
 /**
  * Return a synchronous hex string of the requested length using secure random bytes.
